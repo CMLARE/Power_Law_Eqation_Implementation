@@ -76,9 +76,9 @@ with open("dataset.csv","r") as dataset_file:
                     time_record=[] #contains time records for a specific link
 
                     for record in link_record:
-                        time_record.append(record[1])
+                        time_record.append(datetime.strptime(record[1], '%d-%m-%y %H:%M').strftime('%d-%m-%y %H:%M'))
 
-                    for time_interval in range(0,len(link_record)): #iterate through time intervals
+                    for time_interval in range(0,len(time_record)): #iterate through time intervals
                         datetime_object = datetime.strptime(link_record[time_interval][1], '%d-%m-%y %H:%M')
                         selected_time_interval=datetime_object.strftime('%d-%m-%y %H:%M')
 
@@ -101,7 +101,7 @@ with open("dataset.csv","r") as dataset_file:
                 for p in range(0,len(link_record)): #iterate through selected links record
                     temp_delta_p = []
                     temp_delta_p_l=[]
-                    selected_time_interval = link_record[p][1]
+                    selected_time_interval = (datetime.strptime(link_record[p][1], '%d-%m-%y %H:%M').strftime('%d-%m-%y %H:%M'))
                     for q in range(0,len(data_values)):
                         if(selected_time_interval== data_values[q][1]): #putting "delta P" and "delta P L" in two seperate arrays for selected time interval
                             temp_delta_p.append(data_values[q][2])
@@ -112,10 +112,9 @@ with open("dataset.csv","r") as dataset_file:
                         else:
                             new_data_values.append([link_record[p][0], selected_time_interval, "Dry"])
 
-            print(new_data_values)
             for data in new_data_values: #writing the classification data into a new csv file
                 for r in range(new_record_counter_arr[arr_counter]+1,new_record_counter_arr[arr_counter+1]+1):
-                    if(data[0]==reader[r][0]  and data[1]==reader[r][1]):
+                    if(data[0]==reader[r][0]  and data[1]==datetime.strptime(reader[r][1], '%d-%m-%y %H:%M').strftime('%d-%m-%y %H:%M')):
                         new_arr=reader[r]
                         new_arr.append(data[2])
                         writer.writerow(new_arr)
