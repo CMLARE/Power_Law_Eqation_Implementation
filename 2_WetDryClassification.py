@@ -106,7 +106,7 @@ with open("dataset.csv","r") as dataset_file:
                         if(selected_time_interval== data_values[q][1]): #putting "delta P" and "delta P L" in two seperate arrays for selected time interval
                             temp_delta_p.append(data_values[q][2])
                             temp_delta_p_l.append(data_values[q][3])
-                    if (len(temp_delta_p)>(ThresholdNumberLinks+1)): #calculate median of the above two values if records are present above threshold values
+                    if (len(temp_delta_p)>0): #calculate median of the above two values if records are present above threshold values
                         if (statistics.median(temp_delta_p)<ThresholdMedian and statistics.median(temp_delta_p_l)< ThresholdMedianL):
                             new_data_values.append([link_record[p][0], selected_time_interval, "Wet"])
                         else:
