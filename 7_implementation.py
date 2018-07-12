@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-alp=0.33 #default value
+alp= 0.33 #default value
 Aa = 2.3 #default value
 
 df=pd.read_csv('new_dataset.csv')
@@ -35,7 +35,12 @@ for index, row in df.iterrows():
     temp_ab['f']=temp_ab['f'].map(subtract)
 
     #select using index
-    a,b = temp_ab['f'].min()['a'],temp_ab['f'].min()['b']
+    temp_ab=temp_ab.set_index(['f'])
+    temp_ab.sort_index(inplace=True)
+
+    #print(temp_ab.iloc[0])
+    a = (temp_ab.iloc[0])['a']
+    b = (temp_ab.iloc[0])['b']
 
     L=row['PathLength']
 
@@ -46,9 +51,8 @@ for index, row in df.iterrows():
 
     df['R']=R
 
-
 print (df)
-
+df.to_csv('R_output.csv',index=False)
 
 
 
